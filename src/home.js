@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import logo from './logo.svg';
 import './App.css';
 
 class Home extends Component {
@@ -22,15 +21,18 @@ class Home extends Component {
     }
     render(){
         let homepageArchive = this.state.homepages.map((page,index)=>{
-            return <div key={index}>
-                        <Link to={page.slug}>
-                            <h2>{page.title.rendered}</h2>
-                        </Link>
-                    </div>
+            return(
+                <section key={index}>
+                    <Link to={page.slug}>
+                        <h2>{page.title.rendered}</h2>
+                    </Link>
+                </section>
+            )
         });
         
         return(
             <div className="home">
+                <h1>Jimmy Richardson is a <strong>Creative Technologist</strong> living in Milwaukee, Wisconsin.</h1>
                 {homepageArchive}
             </div>
         );

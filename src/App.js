@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import logo from './logo.svg';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Nav from './nav';
+import Home from './home';
+import Project from './project';
 import './App.css';
 
 /*
@@ -17,10 +19,13 @@ class App extends Component {
     render(){
         return(
             <BrowserRouter>
-                <Nav />
-                    <Route exact path="/" component={Home} />
-                    //<Route exact path="/:project" component={Project} />
-                <Footer />
+                <div>
+                    <Nav />
+                    <Switch>
+                        <Route exact path="/" component={Home} />
+                        <Route exact path="/:project" component={Project} />
+                    </Switch>
+                </div>
             </BrowserRouter>
         );
     }
