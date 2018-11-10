@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { TimelineLite } from 'gsap';
 
 /*
  *
@@ -10,11 +11,10 @@ import { Link } from 'react-router-dom';
 class Nav extends Component {
     constructor(){
         super();
-        this.state = {
-            pagelist: []
-        }
+        this.state = {pagelist:[]}
+        this.tween = new TimelineLite({paused:true});
     }
-    componentDidMount(){        
+    componentDidMount(){
         let getAllPages = 'http://localhost:8888/wp/wp-json/wp/v2/pages/';
         fetch(getAllPages)
         .then(result => result.json())
@@ -23,6 +23,45 @@ class Nav extends Component {
                 pagelist: result
             })
         })
+        
+        document.getElementById('nav-button-outer')
+            .addEventListener('mousemove',function(e){
+            document.getElementById('nav-button')
+                .style.transform = 'translateX(-50%) translateY(-50%)';
+            //document.getElementById('nav-button').style.right = 'unset';
+            document.getElementById('nav-button').style.top = e.clientY+'px';
+            document.getElementById('nav-button').style.left = e.clientX+'px';
+        });
+        
+        document.getElementById('nav-button-outer')
+            .addEventListener('mouseleave',function(e){            
+            document.getElementById('nav-button')
+                .style.transform = 'translateX(0%) translateY(0%)';
+            document.getElementById('nav-button').style.top = '30px';
+            document.getElementById('nav-button').style.left = 'unset';
+        });
+        
+        var toggled = false, that = this;
+        
+        document.getElementById('nav-button')
+            .addEventListener('click',function(){
+            
+            toggled = !toggled;
+            
+            if(toggled){
+                that.tween
+                    .set('#menu',{ visibility: 'visible' })
+                    .to('#menu',1,{ opacity: 1 })
+                    .play();
+            } else {
+                that.tween
+                    .to('#menu',1,{ opacity: 0 })
+                    .set('#menu',{ visibility: 'hidden' })
+                    .play();
+            }
+            
+        });
+        
     }
     render(){
         let navigation = this.state.pagelist.map((page,index)=>{
@@ -35,11 +74,12 @@ class Nav extends Component {
         return(
             <nav id="nav">
                 <Link id="logo" to='/'>JR.CO</Link>
-                <button id="nav-button">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
+                <div id="nav-button-outer"></div>
+                    <button id="nav-button">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
                 <div id="menu"><ul>{navigation}</ul></div>
             </nav>
         );

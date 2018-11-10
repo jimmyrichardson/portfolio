@@ -22,12 +22,11 @@ class Project extends Component {
         fetch(getPage)
             .then(result => result.json())
             .then(result => { this.setState({ projectData: result }) })
+            .catch(error => console.error('Error:', error))
         
         window.addEventListener('scroll',function(){
             if( window.pageYOffset > 500 ){
-                
                 console.log(this);
-                
                 //scrollPush();
             }
         });
@@ -45,6 +44,7 @@ class Project extends Component {
         fetch(getPage)
             .then(result => result.json())
             .then(result => { this.setState({ projectData: result }) })
+            .catch(error => console.error('Error:', error))
     }
     render(){
         let pageContent = this.state.projectData.map((project,index)=>{
@@ -61,9 +61,7 @@ class Project extends Component {
             )
         });
         return(
-            <div style={{minHeight:'1000px'}}>
-                {pageContent}
-            </div>
+            <div>{pageContent}</div>
         );
     }
 }

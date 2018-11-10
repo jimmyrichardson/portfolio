@@ -8,9 +8,7 @@ import { TimelineLite } from 'gsap';
 import './css/app.css';
 
 /*
- *
  * TODO: Create const for REST path to trickle into all API call routing
- *
  */
 
 class App extends Component {
