@@ -3,11 +3,7 @@ import { Link } from 'react-router-dom';
 
 /*
  *
- * TODO: Add all imports
- * TODO: SCSS
- * TODO: Create nav and footer presentational components
  * TODO: Create const for REST path to trickle into all API call routing
- * TODO: Install GSAP
  *
  */
 
@@ -18,7 +14,7 @@ class Nav extends Component {
             pagelist: []
         }
     }
-    componentDidMount(){
+    componentDidMount(){        
         let getAllPages = 'http://localhost:8888/wp/wp-json/wp/v2/pages/';
         fetch(getAllPages)
         .then(result => result.json())
@@ -38,8 +34,12 @@ class Nav extends Component {
         });
         return(
             <nav id="nav">
-                <Link to='/'>JR.CO</Link>
-                <button id="nav-button">:</button>
+                <Link id="logo" to='/'>JR.CO</Link>
+                <button id="nav-button">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <div id="menu"><ul>{navigation}</ul></div>
             </nav>
         );

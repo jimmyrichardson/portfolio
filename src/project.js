@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { TimelineMax } from 'gsap';
 
 /*
  *
@@ -13,9 +14,11 @@ class Project extends Component {
         super(props);
         this.state = { projectData: [] }
     }
-    componentDidMount(){
-        console.log('mounted');
-        let getPage = 'http://localhost:8888/wp/wp-json/wp/v2/pages/?slug='+this.props.location.pathname;
+    componentWillMount(){
+        
+        //new TimelineMax().to('article',1,{opacity:1})
+        
+        let getPage = 'http://localhost:8888/wp/wp-json/wp/v2/pages/?_embed&slug='+this.props.location.pathname;
         fetch(getPage)
             .then(result => result.json())
             .then(result => { this.setState({ projectData: result }) })
@@ -38,19 +41,21 @@ class Project extends Component {
     componentWillReceiveProps(nextProps){
         //this.props.location.pathname <- Current data
         //nextProps.location.pathname <- Clicked data
-        let getPage = 'http://localhost:8888/wp/wp-json/wp/v2/pages/?slug='+nextProps.location.pathname;
+        let getPage = 'http://localhost:8888/wp/wp-json/wp/v2/pages/?_embed&slug='+nextProps.location.pathname;
         fetch(getPage)
             .then(result => result.json())
-            .then(result => { this.setState({ projectData: result }) })   
+            .then(result => { this.setState({ projectData: result }) })
     }
-    render(){        
+    render(){
         let pageContent = this.state.projectData.map((project,index)=>{
             return(
-                <article key={index}>
+                <article style={{opacity:1}} key={index}>
                     <h2>{project.title.rendered}</h2>
                     <div>
                         <span>01</span>
                         <div dangerouslySetInnerHTML={{ __html: project.content.rendered }} />
+                        <p>Up next...</p>
+                        <Link to="/b-media">Check</Link>
                     </div>
                 </article>
             )
@@ -58,7 +63,6 @@ class Project extends Component {
         return(
             <div style={{minHeight:'1000px'}}>
                 {pageContent}
-                <p>Up next...</p>
             </div>
         );
     }
