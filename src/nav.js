@@ -27,7 +27,7 @@ class Nav extends Component {
         document.getElementById('nav-button-outer')
             .addEventListener('mousemove',function(e){
             document.getElementById('nav-button')
-                .style.transform = 'translateX(-50%) translateY(-50%)';
+                .classList.add('nav-hovered');
             //document.getElementById('nav-button').style.right = 'unset';
             document.getElementById('nav-button').style.top = e.clientY+'px';
             document.getElementById('nav-button').style.left = e.clientX+'px';
@@ -35,8 +35,8 @@ class Nav extends Component {
         
         document.getElementById('nav-button-outer')
             .addEventListener('mouseleave',function(e){            
-            document.getElementById('nav-button')
-                .style.transform = 'translateX(0%) translateY(0%)';
+            //document.getElementById('nav-button')
+            //    .style.transform = 'translateX(0%) translateY(0%)';
             document.getElementById('nav-button').style.top = '30px';
             document.getElementById('nav-button').style.left = 'unset';
         });
@@ -75,11 +75,11 @@ class Nav extends Component {
             <nav id="nav">
                 <Link id="logo" to='/'>JR.CO</Link>
                 <div id="nav-button-outer"></div>
-                    <button id="nav-button">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
+                <button id="nav-button">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <div id="menu"><ul>{navigation}</ul></div>
             </nav>
         );

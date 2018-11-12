@@ -32,29 +32,38 @@ class Home extends Component {
             if(document.querySelector('.section-inner')){
                 window.addEventListener('scroll',function(){
                     [].forEach.call(document.querySelectorAll('.home-bg-image-inner'),function(e){
-                        e.style.left = -(window.pageXOffset / 5)+'px';
+                        e.style.left = -(window.pageXOffset / 8)+'px';
                     });
-               });
+                });
             }
             
             this.tween
                 .to('h1',1,{ opacity: 0.03 })
                 .to('section',0.5,{ opacity: 1 })
-                .to('.home-bg',0.35,{ width: '80%' })
-                .to('.home-bg',0.35,{ height: '100%' })
-                .to('.home-bg-overlay',1,{ height: '0%', ease: Expo.easeInOut })
+                .to('.home-bg',1,{ height: '100%', ease: Expo.easeInOut })
+                .staggerTo('.home-bg-overlay',0.75,{ height: '0%', ease: Expo.easeInOut },'0.05')
                 .to('section h2',0.5,{ opacity: 1, top: '25%', ease: Expo.easeOut },'-=0.25')
+                .fromTo('section span',0.5,{ opacity: 0, top: '86.5%' },{ opacity: 1, top: '85%', ease: Expo.easeOut },'-=0.25')
                 .play()
         })
     }
+    
+    componentDidMount(){
+            this.tween
+                .to('h1',1,{ top: '50%' })
+                .play();
+    }
+    
     render(){
         let homepageArchive = this.state.homepages.map((page,index)=>{
             return(
                 <section key={index} style={{opacity:0, marginRight: '45px' }}>
                     <Link to={page.slug}>
-                        <h2 style={{opacity:0,top:'26.5%'}}>{page.title.rendered}</h2>
-                    </Link>
-                    <div className="home-bg" style={{width:'1%',height:'1%'}}>
+                        <h2 style={{opacity:0,top:'26.5%'}}>
+                            {page.title.rendered}
+                        </h2>
+                        <span>View Project</span>
+                        <div className="home-bg" style={{height:'0%',backgroundColor: ''+ page.acf.color +'' }}>
                         <div className="home-bg-image">
                             <div className="home-bg-image-inner"
                             style={{backgroundImage:
@@ -68,13 +77,14 @@ class Home extends Component {
                                 }}></div>
                         </div>
                         <div className="home-bg-overlay"></div>
-                    </div>
+                        </div>
+                    </Link>
                 </section>
             )
         });
         return(
             <div className="home">
-                <h1>Jimmy Richardson is a <strong>Creative Technologist</strong> living in Milwaukee, Wisconsin.</h1>
+                <h1 style={{top:'55%'}}>Jimmy Richardson is a <strong>Creative Technologist</strong> living in Milwaukee, Wisconsin.</h1>
                 <div className="section-outer">
                     <div className="section-inner">
                         {homepageArchive}
