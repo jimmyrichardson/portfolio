@@ -34,9 +34,9 @@ class Nav extends Component {
         });
         
         document.getElementById('nav-button-outer')
-            .addEventListener('mouseleave',function(e){            
-            //document.getElementById('nav-button')
-            //    .style.transform = 'translateX(0%) translateY(0%)';
+            .addEventListener('mouseleave',function(e){     
+            document.getElementById('nav-button')
+                .classList.remove('nav-hovered');
             document.getElementById('nav-button').style.top = '30px';
             document.getElementById('nav-button').style.left = 'unset';
         });

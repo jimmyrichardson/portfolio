@@ -52,8 +52,7 @@ class Home extends Component {
             this.tween
                 .to('h1',1,{ top: '50%' })
                 .play();
-    }
-    
+    }    
     render(){
         let homepageArchive = this.state.homepages.map((page,index)=>{
             return(
@@ -82,7 +81,13 @@ class Home extends Component {
                 </section>
             )
         });
+        
+        function handleScroll(){
+            alert('boi');
+        }
+        
         return(
+            
             <div className="home">
                 <h1 style={{top:'55%'}}>Jimmy Richardson is a <strong>Creative Technologist</strong> living in Milwaukee, Wisconsin.</h1>
                 <div className="section-outer">

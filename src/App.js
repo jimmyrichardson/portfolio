@@ -17,7 +17,7 @@ class App extends Component {
                 .to('#root-inner',1,{opacity:1})
                 .fromTo('#nav',0.3,{y:-30,opacity:0},{y:0,opacity:1});
     }
-    render(){
+    render(){        
         return(
             <BrowserRouter>
                 <div id="root-inner" style={{opacity:0}}>
