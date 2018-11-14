@@ -8,6 +8,7 @@ class Home extends Component {
         this.state = {homepages:[]}
         this.element = null;
         this.tween = new TimelineLite({paused:true});
+        this.infinitween = new TimelineLite({repeat:-1,paused:true});
     }
     componentWillMount(){
         let getAllPages = 'http://localhost:8888/wp/wp-json/wp/v2/pages?_embed';
@@ -50,8 +51,12 @@ class Home extends Component {
     
     componentDidMount(){
             this.tween
-                .to('h1',1,{ top: '50%' })
+                .to('h1',1,{ top: '50%', ease: Expo.easeOut })
                 .play();
+        
+            this.infinitween
+                .to('.home-loading span',0.5,{ opacity: 0 })
+                .to('.home-loading span',0.5,{ opacity: 1 }).play()
     }    
     render(){
         let homepageArchive = this.state.homepages.map((page,index)=>{
@@ -82,14 +87,15 @@ class Home extends Component {
             )
         });
         
-        function handleScroll(){
-            alert('boi');
-        }
-        
         return(
             
             <div className="home">
                 <h1 style={{top:'55%'}}>Jimmy Richardson is a <strong>Creative Technologist</strong> living in Milwaukee, Wisconsin.</h1>
+                <p className="home-loading">He has a few projects to show you
+                    <span>.</span>
+                    <span>.</span>
+                    <span>.</span>
+                </p>
                 <div className="section-outer">
                     <div className="section-inner">
                         {homepageArchive}

@@ -4,8 +4,7 @@ import { TimelineLite, Expo } from 'gsap';
 
 /*
  *
- * TODO: Find a way of scrolling down to re-render next project instance
- * TODO: Pass ACF into API
+ * TODO: Featured Image into ACF upnext API object
  *
  */
 
@@ -13,7 +12,7 @@ class Project extends Component {
     constructor(props){
         super(props);
         this.tween = new TimelineLite({paused:true});
-        this.state = { projectData: [] }
+        this.state = {projectData:[]}
     }
     componentWillMount(){
         
@@ -25,47 +24,47 @@ class Project extends Component {
         
     }
     componentWillReceiveProps(nextProps){
-        
-        //this.props.location.pathname <- Current data
-        //nextProps.location.pathname <- Clicked data
+  
+        this.tween
+            .set('html',{ overflow: 'hidden' })
+            .to('header',0.5,{ opacity: 0 })
+            .to('.container',0.5,{ opacity: 0 },'-=0.5')
+            .set('.upnext h2',{ position: 'fixed' })
+            .set('html',{ scrollTop: 0 })
+            .to('.upnext h2',0.4,{ opacity: 0, ease: Expo.easeInOut })
+            .play()
         
         let getPage = 'http://localhost:8888/wp/wp-json/wp/v2/pages/?_embed&slug='+nextProps.location.pathname;
         fetch(getPage)
             .then(result => result.json())
             .then(result => { this.setState({ projectData: result }) })
+            .then(result => {
+                this.tween
+                    .set('.upnext h2',{ position: 'absolute', opacity: 0.12 })
+                    .to('header',0.5,{ opacity: 1 })
+                    .fromTo('article header .meta-title',0.3,{ y: 10, opacity: 0 },{ y: 0, opacity: 1, ease: Expo.easeOut })
+                    .fromTo('.meta div',0.3,{ y: 10, opacity: 0 },{ y: 0, opacity: 1, ease: Expo.easeOut },'1.5')
+                    .to('.container',0.5,{ opacity: 1 },'-=0.5')
+                    .set('html',{ overflow: 'auto' })
+            })
             .catch(error => console.error('Error:', error))
 
     }
     handleScroll =()=> {
         
-        console.log( window.pageYOffset );
-        console.log( document.body.style.height );
-        console.log( window.innerHeight );
+        var scroll = window.pageYOffset,
+            bodyHeight = document.body.clientHeight,
+            viewport = window.innerHeight;
         
-        /*
-        this.tween
-            .to('article header',0.025,{x:-(window.pageYOffset/2)})
-            .to('article h2',0.025,{backgroundPosition:(window.pageYOffset/2)+'px 50%'})
-            .play()
-        */
-        
-        /*
-        if( window.pageYOffset > 150 ){
-            this.tween
-                .to('html',1.25,{ scrollTop: 0, ease: Expo.easeInOut })
-                .call(
-                    this.props.
-                    history.push(
-                        this.state.projectData[0].acf.upnext.post_name
-                    )
-                )
+        if( scroll === bodyHeight - viewport ){   
+            this.props.history
+                .push(this.state.projectData[0].acf.upnext.post_name)
         }
-        */
+    }
+    upnextpush =()=> {
+        this.props.history.push(this.state.projectData[0].acf.upnext.post_name);
     }
     render(){
-        
-        //console.log(this.state.projectData[0].title.rendered);
-        //document.title = this.state.projectData.title.rendered;
         
         window.addEventListener('scroll',this.handleScroll);   
         
@@ -73,7 +72,7 @@ class Project extends Component {
             return(
                 <article style={{opacity:1}} key={index}>
                     <header>
-                        <h2 style={{backgroundImage: 'url('+
+                        <h2 style={{color: project.acf.color, backgroundImage: 'url('+
                                     project._embedded["wp:featuredmedia"][0]
                                         .media_details
                                         .sizes
@@ -98,8 +97,10 @@ class Project extends Component {
                             </div>
                             <div dangerouslySetInnerHTML={{ __html: project.content.rendered }} />
                         </div>
-                        <p>Up next...</p>
-                        <h2>{project.acf.upnext.post_title}</h2>
+                        <div className="upnext">
+                            <p>Up next...</p>
+                            <h2 style={{color: project.acf.color}}>{project.acf.upnext.post_title}</h2>
+                        </div>
                     </div>
                 </article>
             )
