@@ -48,7 +48,6 @@ class Home extends Component {
                 .play()
         })
     }
-    
     componentDidMount(){
             this.tween
                 .to('h1',1,{ top: '50%', ease: Expo.easeOut })
@@ -59,6 +58,14 @@ class Home extends Component {
                 .to('.home-loading span',0.5,{ opacity: 1 }).play()
     }    
     render(){
+        let scrollPos = 0;
+        window.addEventListener('wheel',function(e){
+            if( document.querySelector('.home .section-inner') ){
+                e.deltaY > 0 || e.deltaX > 0 ? scrollPos += 8 : scrollPos -= 8;
+                window.scrollTo(scrollPos,0);
+            }
+        });
+        
         let homepageArchive = this.state.homepages.map((page,index)=>{
             return(
                 <section key={index} style={{opacity:0, marginRight: '45px' }}>

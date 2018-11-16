@@ -30,7 +30,7 @@ class Project extends Component {
             .to('header',0.5,{ opacity: 0 })
             .to('.container',0.5,{ opacity: 0 },'-=0.5')
             .set('.upnext h2',{ position: 'fixed' })
-            .set('html',{ scrollTop: 0 })
+            .add(function(){window.scrollTo(0,0)})    
             .to('.upnext h2',0.4,{ opacity: 0, ease: Expo.easeInOut })
             .play()
         

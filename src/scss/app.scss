@@ -32,7 +32,7 @@ $black: #1f201f;
 
 .header { font-family: 'archivo', helvetica, sans-serif; text-transform: uppercase; }
 .subheader { font-family: 'akz-cond', helvetica, arial, sans-serif; }
-.paragraph { font-family: 'Helvetica', helvetica, arial, sans-serif; }
+.paragraph { font-family: 'akz', helvetica, arial, sans-serif; }
 
 @mixin appearance($prop){
     -webkit-appearance: $prop;
@@ -120,34 +120,41 @@ button {
         @include typesize(2.25);
         @extend .header;
         position: fixed;
+        z-index: 3;
         margin: 30px 0 0 30px;
+        transition: all .3s;
+    }
+    #nav-outer {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        z-index: 2;
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        border: 1px solid rgba($black,0.1);
     }
     #nav-button-outer {
         position: absolute;
-        right: -5px;
-        top: -5px;
-        width: 120px;
-        height: 120px;
+        right: 20px;
+        top: 20px;
+        z-index: 3;
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
-        border: 1px solid rgba($black,0.1);
     }
     button {
         @extend .input;
         background: $green;
         color: $white;
         border-radius: 50%;
-        width: 50px;
-        height: 50px;
+        width: 35px;
+        height: 35px;
         position: fixed;
-        top: 30px;
-        right: 30px;
-        z-index: 1;
-        transform: translateX(0%) translateY(0%);
-        transition: all .2s;
-        
-        &.nav-hovered {
-            transform: translateX(-50%) translateY(-50%);
-        }
+        top: 50px;
+        left: calc(100vw - 50px);
+        z-index: 2;
+        transform: translateX(-50%) translateY(-50%);
         
         span {
             @extend .centerX;
@@ -156,10 +163,10 @@ button {
             height: 4px;
             display: block;
             border-radius: 50%;
-            top: 22px;
+            top: 16px;
             
-            &:first-child { top: 14px; }
-            &:last-child { top: 30px; }
+            &:first-child { top: 10px; }
+            &:last-child { top: 22px; }
         }
     }
     #menu {
@@ -172,9 +179,65 @@ button {
         width: 100vw;
         height: 100vh;
         background: rgba($green,0.9);
-        z-index: 99999;
+        z-index: 1;
         
-        ul { list-style-type: none; }
+        .nav-main {
+            width: 70%;
+            height: 100%;
+            padding: 12% 0 12% 15%;
+            float: left;
+            display: flex;
+            flex: 1 1 100%;
+            flex-direction: column;
+            justify-content: space-around;
+            
+            h2 {
+                width: 50%;
+                max-width: 400px;
+            }
+            & > div {
+                @extend .paragraph;
+                width: 70%;
+                padding-left: 8%;
+                max-width: 500px;
+                
+                p { line-height: 150%; padding-bottom: 18px; }
+                a { display: inline-block; }
+            }
+        }
+        ul {
+            list-style-type: none;
+            &.page-list {
+                @extend .subheader;
+                @include typesize(1.25);
+                text-transform: uppercase;
+                width: 30%;
+                float: left;
+                height: 90vh;
+                padding-top: 10vh;
+                display: flex;
+                flex: 1 1 100%;
+                flex-direction: column;
+                justify-content: space-around;
+            }
+        }
+    }
+}
+body.nav-opened {
+    #nav {
+        #logo {
+            color: rgba($white,0.75);
+            -webkit-text-stroke-color: rgba($white,0.75);
+        }
+        #nav-outer {
+            border-color: rgba($white,0.35);
+        }
+        button {
+            background: $white;
+            span {
+                background: $green;
+            }
+        }
     }
 }
 .home {
@@ -284,6 +347,7 @@ article {
         position: relative;
         width: 100vw;
         height: 100vh;
+        /*height: calc(90vh - 90px);*/
         
         h2 {
             @extend .centerY;
@@ -381,6 +445,15 @@ article {
                 text-align: center;
                 margin-top: 30px;
             }
+            
+            p {
+                @extend .paragraph;
+                line-height: 150%;
+                
+                &:first-line {
+                    font-weight: bold;
+                }
+            }
         }
         
         &:after {
@@ -401,7 +474,12 @@ article {
         z-index: 999999;
         pointer-events: none;
         @extend .centerXY;
-        transition: all .2s;
+        transition: all .1s;
+        
+        &.nav-hovered {
+            border-width: 0px;
+            border-color: $green;
+        }
     }
     
     #coordinates {
@@ -442,4 +520,8 @@ article {
         }
     }
     
+}
+
+@media only screen and ( max-device-width: 800px ){
+    #cursor { display: none; }
 }
