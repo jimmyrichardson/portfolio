@@ -40,6 +40,7 @@ class Home extends Component {
             
             this.tween
                 .to('h1',1,{ opacity: 0.03 })
+                .to('.home-loading',1,{ opacity: 0 },'-=1')
                 .to('section',0.5,{ opacity: 1 })
                 .to('.home-bg',1,{ height: '100%', ease: Expo.easeInOut })
                 .staggerTo('.home-bg-overlay',0.75,{ height: '0%', ease: Expo.easeInOut },'0.05')
@@ -50,19 +51,34 @@ class Home extends Component {
     }
     componentDidMount(){
             this.tween
-                .to('h1',1,{ top: '50%', ease: Expo.easeOut })
+                .to('h1',1.25,{ top: '50%', ease: Expo.easeOut })
                 .play();
         
             this.infinitween
-                .to('.home-loading span',0.5,{ opacity: 0 })
-                .to('.home-loading span',0.5,{ opacity: 1 }).play()
+                .staggerTo('.home-loading span',0.5,{ opacity: 0 },'0.1')
+                .staggerTo('.home-loading span',0.5,{ opacity: 1 },'0.1').play()
     }    
     render(){
         let scrollPos = 0;
+        var scrollTween = new TimelineLite();
         window.addEventListener('wheel',function(e){
             if( document.querySelector('.home .section-inner') ){
-                e.deltaY > 0 || e.deltaX > 0 ? scrollPos += 8 : scrollPos -= 8;
+                
+                e.deltaY > 0 || e.deltaX > 0 ? _scrolledLeft() : _scrolledRight();
+                
+                function _scrolledLeft(){
+                    scrollPos += 8;
+                    console.log(scrollPos);
+                    //e.stopPropagation();
+                }
+
+                function _scrolledRight(){
+                    scrollPos -= 8;
+                    //scrollTween.staggerTo('section',0.25,{ x: scrollPos, ease: Expo.easeInOut });
+                }
+
                 window.scrollTo(scrollPos,0);
+
             }
         });
         

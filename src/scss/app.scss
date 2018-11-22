@@ -1,4 +1,12 @@
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+html, body, div, span, applet, object, iframe, h1,
+h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr,
+acronym, address, big, cite, code, del, dfn, em, img,
+ins, kbd, q, s, samp, small, strike, strong, sub, sup,
+tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset,
+form, label, legend, table, caption, tbody, tfoot, thead,
+tr, th, td, article, aside, canvas, details, embed, figure,
+figcaption, footer, header, hgroup, menu, nav, output, ruby,
+section, summary, time, mark, audio, video {
     font-size: 100%;
     font: inherit;
     padding: 0;
@@ -9,7 +17,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     cursor: none;
 }
 
-*:hover { cursor: none; }
+*,*:hover { cursor: none; }
 
 $green: #878C67;
 $white: #fafffa;
@@ -219,6 +227,28 @@ button {
                 flex: 1 1 100%;
                 flex-direction: column;
                 justify-content: space-around;
+
+                a {
+                    position: relative;
+
+                    &:before {
+                        content: "";
+                        display: block;
+                        position: absolute;
+                        top: -15px;
+                        width: 0%;
+                        height: 4px;
+                        background: $white;
+                        transition: width 1s;
+                    }
+
+                    &:hover {
+                        &:before {
+                            width: 100%;
+                            transition: width 0.5s;
+                        }
+                    }
+                }
             }
         }
     }
@@ -252,7 +282,13 @@ body.nav-opened {
         
         /*strong { -webkit-text-fill-color: rgba($black,0.25); }*/
     }
-    
+    .home-loading {
+        position: fixed;
+        z-index: 0;
+        top: 75%;
+        width: 66.666%;
+        color: rgba($black,0.5);
+    }
     section {
         float: left;
         position: relative;
@@ -429,7 +465,7 @@ article {
                     content: "";
                     display: block;
                     width: 100%;
-                    height: 1px;
+                    height: 2px;
                     background: $black;
                     position: absolute;
                     top: 0;
